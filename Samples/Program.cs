@@ -48,7 +48,7 @@ namespace topfact.Archive.Samples
 
             //ChangeDocument(client, docid);
 
-            //DownloadDocument();
+            DownloadDocument();
 
             //GetDocument();
 
@@ -295,12 +295,13 @@ namespace topfact.Archive.Samples
                 Console.WriteLine($"Download document was successfully.");
                 Console.ResetColor();
 
-                var file = res.Files.First();
+                foreach (var file in res.Files)
+                {
+                    var path = System.IO.Path.Combine("C:\\Temp\\_UnitTest", file.Filename);
+                    System.IO.File.WriteAllBytes(path, file.Filebinary);
 
-                var path = System.IO.Path.Combine("C:\\Temp", file.Filename);
-                System.IO.File.WriteAllBytes(path, file.Filebinary);
-
-                Process.Start(path);
+                    Process.Start(path);
+                }                
 
                 return true;
             }
@@ -344,12 +345,13 @@ namespace topfact.Archive.Samples
 
         private static bool GetFiles()
         {
-            var req = new topfact.Archive.Models.Request.GetDocumentRequest();
+            var req = new topfact.Archive.Models.Request.GetFilesRequest();
             req.ArchiveGuid = Constants.ArchiveGuid;
             req.DocId = 4667;
+            req.WithBinaries = true;
             req.Token = TfaToken;
 
-            var res = TfaClient.GetDocument(req);
+            var res = TfaClient.GetFiles(req);
 
             if (res?.StatusCode == 0)
             {
@@ -357,27 +359,11 @@ namespace topfact.Archive.Samples
                 Console.WriteLine($"Get document was successfully.");
                 Console.ResetColor();
 
-                foreach (var file in res.Document.ArchiveFiles)
+                foreach (var file in res.Files)
                 {
-                    var fileReq = new topfact.Archive.Models.Request.GetFileRequest()
-                    {
-                        ArchiveGuid = Constants.ArchiveGuid,
-                        DocId = file.DocId,
-                        FileId = file.FileId,
-                        WithBinaries = true,
-                        AsPdf = true,
-                        Token = TfaToken
-                    };
+                    var path = System.IO.Path.Combine("C:\\Temp\\_UnitTest", file.Filename);
 
-                    var fileRes = TfaClient.GetFileAsStreamWithPost(fileReq);
-                    if (fileRes?.StatusCode == 0)
-                    {
-                        var b = topfact.Archive.ApiClient.CommonHelper.GetByteFromStream(fileRes.FileStream);
-                        
-                        var path = System.IO.Path.Combine("C:\\Temp\\_UnitTest", fileRes.Filename);
-
-                        System.IO.File.WriteAllBytes(path, b);
-                    }
+                    System.IO.File.WriteAllBytes(path, file.Filebinary);
                 }
 
                 return true;
