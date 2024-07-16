@@ -38,7 +38,7 @@ namespace topfact.Archive.Samples
             //    Console.WriteLine($"Archive: {a.Name}");
             //}
 
-            //SearchDocuments();
+            SearchDocuments();
 
             //SearchFulltext("container");
 
@@ -48,11 +48,11 @@ namespace topfact.Archive.Samples
 
             //ChangeDocument(client, docid);
 
-            DownloadDocument();
+            //DownloadDocument();
 
             //GetDocument();
 
-            GetFiles();
+            //GetFiles();
 
             //ShowInWebviewer(docid);
 
@@ -88,8 +88,8 @@ namespace topfact.Archive.Samples
             var req = new topfact.Archive.Models.Request.SearchRequest();
             req.ArchiveGuid = Constants.ArchiveGuid;
             req.Searchfields = new List<Models.SearchField>();
-            req.Searchfields.Add(new Models.SearchField("belegart", "Rechnung"));
-            req.Searchfields.Add(new Models.SearchField("belegdatum", DateTime.Now.AddYears(-1), DateTime.Now));
+            req.Searchfields.Add(new Models.SearchField("belegart", "IN(Rechnung,Gutschrift,Angebot)"));
+            //req.Searchfields.Add(new Models.SearchField("belegdatum", DateTime.Now.AddYears(-1), DateTime.Now));
 
             // Optional for best performance
             //req.Columns = new List<string>() { "gpname", "gpnummer", "belegart" };
