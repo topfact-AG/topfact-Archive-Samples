@@ -18,6 +18,8 @@ Module Module1
 
         Dim token = Logon()
 
+        Dim tokenApp = LogonAsApp()
+
         If token Is Nothing Then
             Console.WriteLine("Invalid credentials.")
             Return
@@ -38,6 +40,20 @@ Module Module1
 
         Try
             Dim token = TfaClient.Logon(un, pw)
+            Return token
+        Catch ex As Exception
+            Return Nothing
+        End Try
+
+    End Function
+
+    Private Function LogonAsApp() As topfact.Archive.Models.Security.Token
+
+        Dim clientID As String = Environment.GetEnvironmentVariable("tfa_clientid", EnvironmentVariableTarget.User)
+        Dim clientKey As String = Environment.GetEnvironmentVariable("tfa_clientkey", EnvironmentVariableTarget.User)
+
+        Try
+            Dim token = TfaClient.LogonApp(clientID, clientKey)
             Return token
         Catch ex As Exception
             Return Nothing
