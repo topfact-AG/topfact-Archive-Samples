@@ -112,4 +112,22 @@ Module Module1
 
     End Sub
 
+    Private Sub LockDocument(docid As Integer)
+
+        Dim req = New topfact.Archive.Models.Request.LockDocumentRequest()
+        req.ArchiveGuid = ArchiveGuid
+        req.DocId = docid
+        req.ShouldLock = True ' False if unclock document
+        req.Token = TfaToken
+
+        Dim res = TfaClient.LockDocument(req)
+
+        If res?.StatusCode = 0 Then
+
+        Else
+
+        End If
+
+    End Sub
+
 End Module
