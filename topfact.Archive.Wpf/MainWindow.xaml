@@ -1,0 +1,55 @@
+﻿<Window
+    x:Class="topfact.Archive.Wpf.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:topfact.Archive.Wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="topfact Archiv! UI Test"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+
+    <Grid>
+        <StackPanel Margin="50">
+
+            <Label Content="API Url" />
+            <TextBox x:Name="txtApiUrl" Text="https://dev.topfactcloud.de/topfact/api" />
+
+            <Label Content="Client ID" />
+            <TextBox x:Name="txtClientId" Text="563ED534-3B71-426F-9D5C-241E2697DA12" />
+
+            <Label Content="Client Key" />
+            <TextBox x:Name="txtClientKey" Text="10F8B738-DD52-4D62-98E1-D03FC80E1905" />
+
+            <Button
+                x:Name="btnLogin"
+                Margin="0,20"
+                Click="btnLogin_Click"
+                Content="Login" />
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Label Content="Username:" />
+                <Label x:Name="lblUser" Grid.Column="1" />
+
+                <Label Grid.Row="1" Content="Expired on:" />
+                <Label
+                    x:Name="lblExpired"
+                    Grid.Row="1"
+                    Grid.Column="1" />
+
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+
+</Window>
