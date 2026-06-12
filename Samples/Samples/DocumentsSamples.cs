@@ -96,6 +96,11 @@ namespace topfact.Archive.Samples
                 return null;            
         }
 
+        /// <summary>
+        /// Changes an existing document in the archive using the TfaApiClient and the provided security token.
+        /// </summary>
+        /// <param name="docid">The ID of the document to change.</param>
+        /// <returns>True if the document was changed successfully; otherwise, false.</returns>
         public bool ChangeDocument(int docid)
         {
             var req = new topfact.Archive.Models.Request.ChangeDocumentRequest();
@@ -132,6 +137,10 @@ namespace topfact.Archive.Samples
             }
         }
 
+        /// <summary>
+        /// Downloads a document from the archive using the TfaApiClient and the provided security token.
+        /// </summary>
+        /// <returns>True if the document was downloaded successfully; otherwise, false.</returns>
         public bool DownloadDocument()
         {
             var req = new topfact.Archive.Models.Request.DownloadDocumentRequest();

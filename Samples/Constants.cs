@@ -7,12 +7,7 @@ namespace topfact.Archive.Samples
         /// <summary>
         /// TFA API URL
         /// </summary>
-        public static string BaseUrl => "https://app.topfactcloud.de/0001/topfact/api";
-
-        /// <summary>
-        /// Webviewer URL
-        /// </summary>
-        public static string ClientUrl => "https://app.topfactcloud.de/0001/topfact/client";
+        public static string BaseUrl => Environment.GetEnvironmentVariable("tfa_base_url");
 
         /// <summary>
         /// TFA Username
@@ -27,6 +22,6 @@ namespace topfact.Archive.Samples
         /// <summary>
         /// Archive GUID
         /// </summary>
-        public static string ArchiveGuid => "3404D3E3-F975-47B5-A2ED-1208AE02F848";
+        public static string ArchiveGuid => Environment.GetEnvironmentVariable("tfa_archive_guid");
     }
 }
