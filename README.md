@@ -84,13 +84,13 @@ Whether you're building a new integration or learning the API, these samples pro
 The first step is always to authenticate and obtain a security token:
 
 ```csharp
-// Initialize the API client
-var client = new topfact.Archive.ApiClient.TfaApiClient("https://app.topfactcloud.de/0001/topfact/api");
+// Initialize the API client (uses Constants.BaseUrl from environment variable)
+var client = new topfact.Archive.ApiClient.TfaApiClient(Constants.BaseUrl);
 
 // Create authentication helper
 var auth = new AuthenticationSamples(client);
 
-// Login and get token
+// Login and get token (uses Constants.Username and Constants.Password from environment variables)
 var token = auth.Logon();
 if (token != null)
 {
@@ -116,7 +116,7 @@ foreach (var archive in archives)
 var documentsSamples = new DocumentsSamples(client, token);
 
 var request = new topfact.Archive.Models.Request.AddDocumentRequest();
-request.ArchiveGuid = "3404D3E3-F975-47B5-A2ED-1208AE02F848";
+request.ArchiveGuid = Constants.ArchiveGuid;  // Uses environment variable tfa_archive_guid
 
 // Set metadata fields
 request.ArchiveFields = new List<Models.ArchiveField>
@@ -204,9 +204,8 @@ topfact-Archive-Samples/
 
 ### API Requirements
 - Valid topfact Cloud account
-- API endpoint access: `https://app.topfactcloud.de/0001/topfact/api`
-- Username and password for authentication
-- Archive GUID for document operations
+- Configured environment variables: `tfa_user_cloud` and `tfa_pass_cloud` (required)
+- Optional environment variables: `tfa_base_url`, `tfa_client_url`, and `tfa_archive_guid` (uses defaults if not set)
 
 ### Dependencies
 - **topfact.Archive.ApiClient** (v2024.7.1.15) - Main API client library
@@ -243,19 +242,19 @@ You can customize the API endpoints and archive settings via environment variabl
 
 ```powershell
 # PowerShell
-$env:tfa_base_url = "https://app.topfactcloud.de/0001/topfact/api"
-$env:tfa_client_url = "https://app.topfactcloud.de/0001/topfact/client"
-$env:tfa_archive_guid = "3404D3E3-F975-47B5-A2ED-1208AE02F848"
+$env:tfa_base_url = "https://app.topfactcloud.de/xxxx/topfact/api"
+$env:tfa_client_url = "https://app.topfactcloud.de/xxxx/topfact/client"
+$env:tfa_archive_guid = "<Guid>"
 
 # Command Prompt
-set tfa_base_url=https://app.topfactcloud.de/0001/topfact/api
-set tfa_client_url=https://app.topfactcloud.de/0001/topfact/client
-set tfa_archive_guid=3404D3E3-F975-47B5-A2ED-1208AE02F848
+set tfa_base_url=https://app.topfactcloud.de/xxxx/topfact/api
+set tfa_client_url=https://app.topfactcloud.de/xxxx/topfact/client
+set tfa_archive_guid=<Guid>
 
 # Linux/macOS
-export tfa_base_url="https://app.topfactcloud.de/0001/topfact/api"
-export tfa_client_url="https://app.topfactcloud.de/0001/topfact/client"
-export tfa_archive_guid="3404D3E3-F975-47B5-A2ED-1208AE02F848"
+export tfa_base_url="https://app.topfactcloud.de/xxxx/topfact/api"
+export tfa_client_url="https://app.topfactcloud.de/xxxx/topfact/client"
+export tfa_archive_guid="<Guid>"
 ```
 
 #### Environment Variable Summary
@@ -264,9 +263,9 @@ export tfa_archive_guid="3404D3E3-F975-47B5-A2ED-1208AE02F848"
 |----------|-------------|---------------|---------:|
 | `tfa_user_cloud` | topfact Cloud username | - | ✓ Yes |
 | `tfa_pass_cloud` | topfact Cloud password | - | ✓ Yes |
-| `tfa_base_url` | API base URL | `https://app.topfactcloud.de/0001/topfact/api` | ✗ No |
-| `tfa_client_url` | Web client URL | `https://app.topfactcloud.de/0001/topfact/client` | ✗ No |
-| `tfa_archive_guid` | Default archive GUID | `3404D3E3-F975-47B5-A2ED-1208AE02F848` | ✗ No |
+| `tfa_base_url` | API base URL | `https://app.topfactcloud.de/xxxx/topfact/api` | ✗ No |
+| `tfa_client_url` | Web client URL | `https://app.topfactcloud.de/xxxx/topfact/client` | ✗ No |
+| `tfa_archive_guid` | Default archive GUID | `<Guid>` | ✗ No |
 
 ### Constants Configuration
 
@@ -284,14 +283,14 @@ namespace topfact.Archive.Samples
         /// </summary>
         public static string BaseUrl => 
             Environment.GetEnvironmentVariable("tfa_base_url") 
-            ?? "https://app.topfactcloud.de/0001/topfact/api";
+            ?? "https://app.topfactcloud.de/xxxx/topfact/api";
 
         /// <summary>
         /// Webviewer URL (from environment variable tfa_client_url)
         /// </summary>
         public static string ClientUrl => 
             Environment.GetEnvironmentVariable("tfa_client_url") 
-            ?? "https://app.topfactcloud.de/0001/topfact/client";
+            ?? "https://app.topfactcloud.de/xxxx/topfact/client";
 
         /// <summary>
         /// TFA Username (from environment variable tfa_user_cloud)
@@ -310,7 +309,7 @@ namespace topfact.Archive.Samples
         /// </summary>
         public static string ArchiveGuid => 
             Environment.GetEnvironmentVariable("tfa_archive_guid") 
-            ?? "3404D3E3-F975-47B5-A2ED-1208AE02F848";
+            ?? "<Guid>";
     }
 }
 ```
@@ -326,8 +325,8 @@ The application configuration can be customized in `App.config`. Refer to the pr
 # Set all required variables
 $env:tfa_user_cloud = "your_username"
 $env:tfa_pass_cloud = "your_password"
-$env:tfa_base_url = "https://app.topfactcloud.de/0001/topfact/api"
-$env:tfa_archive_guid = "3404D3E3-F975-47B5-A2ED-1208AE02F848"
+$env:tfa_base_url = "https://app.topfactcloud.de/xxxx/topfact/api"
+$env:tfa_archive_guid = "<Guid>"
 
 # Run the application
 .\bin\Debug\topfact.Archive.Samples.exe
@@ -338,8 +337,8 @@ $env:tfa_archive_guid = "3404D3E3-F975-47B5-A2ED-1208AE02F848"
 # Set all required variables
 export tfa_user_cloud="your_username"
 export tfa_pass_cloud="your_password"
-export tfa_base_url="https://app.topfactcloud.de/0001/topfact/api"
-export tfa_archive_guid="3404D3E3-F975-47B5-A2ED-1208AE02F848"
+export tfa_base_url="https://app.topfactcloud.de/xxxx/topfact/api"
+export tfa_archive_guid="<Guid>"
 
 # Run the application
 dotnet run --project Samples/topfact.Archive.Samples.csproj
